@@ -1,0 +1,249 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{mathptmx}% Times Roman font
+\usepackage{CJKutf8}  %支持中文
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[unicode={true}]{hyperref} 
+
+\usepackage{graphicx}   %表格
+\usepackage{booktabs,longtable,lscape}
+\usepackage{pdflscape}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{colortbl}   %表格底色
+\usepackage{float}      %固定浮动窗口
+
+\usepackage{graphicx} %package to manage images
+\graphicspath{ {png/} }
+\usepackage{subfigure} %双栏图片
+\usepackage{footbib}  %参考文献
+
+\usepackage{tgtermes}
+\usepackage{amsmath,amssymb,amsthm,textcomp}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{tikz}
+
+\usepackage{geometry}
+\geometry{total={210mm,297mm}, left=25mm, right=25mm, bindingoffset=0mm, top=20mm,bottom=20mm}
+
+
+\linespread{1.3}
+
+\newcommand{\linia}{\rule{\linewidth}{0.5pt}}
+
+% table
+\makeatletter
+\newcommand{\figcaption}{\def\@captype{figure}\caption}
+\newcommand{\tabcaption}{\def\@captype{table}\caption}
+\makeatother
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+%然后使用&\tabincell{c}{}&就可以在表格中自动换行
+
+\renewcommand\arraystretch{0.9}   %行距
+
+% custom theorems if needed
+\newtheoremstyle{mytheor}
+{1ex}{1ex}{\normalfont}{0pt}{\scshape}{.}{1ex}
+{{\thmname{#1 }}{\thmnumber{#2}}{\thmnote{ (#3)}}}
+
+\theoremstyle{mytheor}
+\newtheorem{defi}{Definition}
+
+% my own titles
+\makeatletter
+\renewcommand{\maketitle}{
+	\begin{center}
+	\vspace{2ex}
+	{\huge \textsc{\@title}}
+	\vspace{1ex}
+	\\
+		\linia\\
+		\@author \hfill \@date
+		\vspace{4ex}
+	\end{center}
+}
+\makeatother
+
+% custom footers and headers
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{v1.0}                  %版本号
+\cfoot{}
+\rfoot{ \thepage\ /\ \pageref*{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+%
+
+%%%----------%%%----------%%%----------%%%----------%%%
+
+\begin{document}
+\begin{CJK*}{UTF8}{gbsn}
+
+\title{新生儿V1丹麦测试数据评估报告}
+\author{LAN, Zhangzhang}
+\maketitle
+
+\section{下机数据}
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item[-] 下机时间：20150817
+\item[-] 下机路径：/share/Fastq02/solexa/F14ZQSQSET1523\_HUMpmkX/DKDNAPEP01529 (丹麦)
+\item[-] 实验目的：重复样本在丹麦实验室建库以及测序，深圳集群分析，验证结果一致性。
+\item[-] 实验设计: 常规建库。本次测试共10个样本，2个YH为重复样本，8个阳性样本。以往数据均为酶切样本，不能作为互相比较。实验方案请参考《新生儿hiseq平台验证实验方案.docx》。
+\item[-] 芯片特性：华大自制芯片，目标区域包括218个基因的外显子及外显子前后50bp，UTR和深度内含子的区域，大小共1,004,680bp。其中线粒体探针捕获大部分数据量。
+\end{itemize}
+
+
+\begin{center}
+\fontsize{10}{12} \selectfont
+\begin{tabular}[t]{l|l|l|l|l|l}
+\hline
+序号	&	样本名称	&	性别	&	 文库号	&	样品类型	&	使用量	\\
+\hline
+1	&	SD13S0056	&	M	&	pre-pcr-SD13S0056-43	&	干血片	&	200ng	\\
+2	&	SD12S0040	&	M	&	pre-pcr-SD12S0040-28	&	干血片	&	200ng	\\
+3	&	SD13S0539	&	M	&	pre-pcr-SD13S0539-39	&	干血片	&	200ng	\\
+4	&	13B0005773	&	M	&	pre-pcr-13B0005773-44	&	干血片	&	200ng	\\
+5	&	SD13S0244	&	F	&	pre-pcr-SD13S0244-41	&	干血片	&	200ng	\\
+6	&	SD13S0213	&	F	&	pre-pcr-SD13S0213-42	&	干血片	&	200ng	\\
+7	&	SGDV1P297	&	M	&	pre-pcr-SGDV1P297-25	&	干血片	&	200ng	\\
+8	&	13B0005808	&	M	&	pre-pcr-13B0005808-31	&	干血片	&	200ng	\\
+9	&	YH-2	&	M	&	pre-pcr-HYDNA-46	&	干血片	&	200ng	\\
+10	&	YH-1	&	M	&	pre-pcr-HYDNA-45	&	干血片	&	200ng	\\
+\hline
+\end{tabular}
+\tabcaption{测试样本列表}
+\end{center}
+
+\section{比对结果统计分析}
+\subsection{深度与覆盖度}
+\input{coverage_report}
+\fontsize{10}{12} \selectfont
+关于表中内容的说明：
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item[-] PCR duplication：20\%-30\%为正常值。两个炎黄样本却异常偏高，为60\%。
+\item[-] 样品捕获效率很高，但样本之间略微差异。深圳酶切样本最高为40\%。
+\item[-] 样本的平均深度达到400×以上，新生儿产品的深度要求达到150×以上，可稍微减少数据量，以节约成本。
+\item[-] 样本覆盖度能达到99\%，符合要求。
+\item[-] 样本区域均一性较好。
+\end{itemize}
+
+\subsection{各染色体捕获数据量百分比}
+\input{chromosome_report}
+\fontsize{10}{12} \selectfont
+\begin{itemize}\setlength{\itemsep}{0pt} 
+\item[-] 捕获线粒体数据量远远高于核基因组数据量，与芯片预期一致。
+\end{itemize}
+
+\subsection{核基因深度}
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item[-] 由于该芯片特性，线粒体捕获了大部分数据量。下面数据结果为去掉线粒体区域，单独分析核基因区域。
+\item[-] 深度，捕获效率等都是符合生产要求的.
+\item[-] 具体结果如下。
+\end{itemize}
+\begin{center}
+\renewcommand{\arraystretch}{1}
+\fontsize{8}{12} \selectfont
+\begin{tabular}[t]{l|l|l|l|l|l}
+\hline
+title	&	13B0005808	&	SD13S0056	&	13B0005773	&	SD13S0213	&	SD13S0539	\\
+\hline
+Average depth	&	310.61	&	278.51	&	294.87	&	332.95	&	349.78	\\
+Average depth(rmdup)	&	258.02	&	233.81	&	243.86	&	275.79	&	288.3	\\
+Fraction of Target Reads in all reads	&	31.86\%	&	37.90\%	&	36.16\%	&	34.61\%	&	37.05\%	\\
+Fraction of Target Reads in mapped reads	&	31.87\%	&	37.91\%	&	36.17\%	&	34.62\%	&	37.06\%	\\
+Fraction of Target Data in all data	&	28.42\%	&	33.77\%	&	32.22\%	&	30.88\%	&	33.10\%	\\
+Fraction of Target Data in mapped data	&	28.42\%	&	33.78\%	&	32.23\%	&	30.89\%	&	33.11\%	\\
+\hline
+title	&	SD12S0040	&	SGDV1P297	&	SD13S0244	&	YH-1	&	YH-2	\\
+\hline
+Average depth	&	271.83	&	393.1	&	307.9	&	414.05	&	401.5	\\
+Average depth(rmdup)	&	225.25	&	319.57	&	256.85	&	336.8	&	327.3	\\
+Fraction of Target Reads in all reads	&	44.12\%	&	39.06\%	&	31.22\%	&	12.40\%	&	11.93\%	\\
+Fraction of Target Reads in mapped reads	&	44.13\%	&	39.07\%	&	31.22\%	&	12.40\%	&	11.94\%	\\
+Fraction of Target Data in all data	&	39.35\%	&	34.89\%	&	27.88\%	&	11.08\%	&	10.66\%	\\
+Fraction of Target Data in mapped data	&	39.36\%	&	34.90\%	&	27.88\%	&	11.08\%	&	10.66\%	\\
+\hline
+\end{tabular}
+\tabcaption{各样本核基因深度列表}
+\end{center}
+
+\section{variation准确性及一致性分析}
+\subsection{阳性位点检出情况}
+8个样本的阳性位点，包括SNP和indel，数据均与深圳测试结果一致。\\
+\renewcommand{\arraystretch}{1}
+\fontsize{8}{12} \selectfont	
+\begin{tabular}[t]{l|l|l|l|l|l}
+\hline
+序号	&	样本名称	&	性别	&	 文库号	&	阳性位点	&	检出情况	\\
+\hline
+1	&	SD13S0056	&	M	&	pre-pcr-SD13S0056-43	&	GJB2:c.235delC(Hom)	&	检出	\\
+2	&	SD12S0040	&	M	&	pre-pcr-SD12S0040-28	&	BCKDHB:c.580C>T(Het) &	检出	\\
+3	&	SD13S0539	&	M	&	pre-pcr-SD13S0539-39	&	GJB2:c.235delC(Hom)	&	检出	\\
+4	&	13B0005773	&	M	&	pre-pcr-13B0005773-44	&	PAH:c.331C>T(Het);c.728G>A(Het)	&	检出	\\
+5	&	SD13S0244	&	F	&	pre-pcr-SD13S0244-41	&	\tabincell{c}{SLC25A13:c.852\_855delTATG(Het);\\ c.1177+1G>A(Het)} & 检出	\\
+6	&	SD13S0213	&	F	&	pre-pcr-SD13S0213-42	&	CYP21A2:c.955C>T(Het)	&	未检出（深圳也未检出）	\\
+7	&	SGDV1P297	&	M	&	pre-pcr-SGDV1P297-25	&	ASL:p.Asp145Gly(het)	&	检出	\\
+8	&	13B0005808	&	M	&	pre-pcr-13B0005808-31	&	TSC2:c.5048T>G(het)	&	检出	\\
+9	&	YH-2	&	M	&	pre-pcr-HYDNA-46	&	无	&	无	\\
+10	&	YH-1	&	M	&	pre-pcr-HYDNA-45	&	无	&	无	\\
+\hline
+\end{tabular}
+\tabcaption{测试样本列表}
+
+\subsection{YH一致性分析}
+NGS检测方法的准确性可以通过分析SNP假阳性和假阴性的个数来进行评估。灵敏度是指检测到目标区域中突变点的可能性,该指标反应的是检测的假阴性率。NGS特异性是指在目标区域中检测不到不存在突变点的概率，该指标反应检测的假阳性率。
+首先，本次测试使用YH样品，以炎黄数据库为为参考标准，计算两个炎黄样本YH-1和YH-2 的SNP一致性，以此评估。其次，查看以往深圳酶切炎黄样本YH-daily，比较两次实验的一致性，以此评估。此次测试的两个炎黄样本表现优异，深圳以往样本则因为酶切建库的影响，结果稍差。
+具体结果见下表， 计算方法见备注参考文献\footcite{Harismendy2009}。
+\subsubsection{常规建库YH-1、YH-2一致性评估}
+\begin{center}
+\begin{tabular}[t]{l|l|l}
+\hline
+此次测试	&	YH-1	&	YH-2	\\
+\hline
+		False positive rate	&	0.00000	&	0.00000	 \\
+		False negative rate	&	0.00000	&	0.00000	 \\
+		Variant discrepancy rate & 0.02116 & 0.02116 \\ 
+		Coverage rate 	&	0.82968 	&	0.82968	\\
+\hline
+\end{tabular}
+\end{center}
+\subsubsection{深圳酶切炎黄样本YH-daily}
+\begin{center}
+\begin{tabular}[t]{l|l}
+\hline
+以往样本	&	YH-daily	\\
+\hline
+		False positive rate	&	0.00000		 \\
+		False negative rate	&	0.00000		 \\
+		Variant discrepancy rate & 0.04712  \\ 
+		Coverage rate 	&	0.83097	\\
+\hline
+\end{tabular}
+\end{center}
+\footbibliography{mybib}
+\footbibliographystyle{abbrv}
+
+\section{附录}
+\fontsize{10}{12} \selectfont
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item[-] 限于篇幅，只列出部分信息。
+\item[-] 余下信息如需要可邮件lanzhangzhang@。
+\item[-] 由于线粒体占据了大部分数据量，所以在以下的图表中，均是以核基因区域为目标区域而计算的。
+\item[-] 外显子深度分布图则是选择YH-1，随机几个基因绘制。结果显示均一性较好。
+\end{itemize}
+\subsection{单碱基分布图}
+\include{qc}
+
+\subsection{外显子深度分布图}
+\input{graph}
+
+
+\end{CJK*}
+\end{document}
